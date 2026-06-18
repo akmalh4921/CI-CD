@@ -1,0 +1,23 @@
+trigger:
+  - main
+
+pool:
+  name: AzureAgentPool
+
+steps:
+  - task: TerraformInstaller@1
+    displayName: TerraformInstall
+    inputs:
+      terraformVersion: 'latest'
+
+  - task: TerraformTask@5
+    displayName: TerraformInit
+    inputs:
+      provider: 'azurerm'
+      command: 'init'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/'
+      backendServiceArm: 'IdentityTypeFederation'
+      backendAzureRmResourceGroupName: 'rg-apple'
+      backendAzureRmStorageAccountName: 'strgapple01'
+      backendAzureRmContainerName: 'trcontainertfstate'
+      backendAzureRmKey: 'akmlapstfstate'
